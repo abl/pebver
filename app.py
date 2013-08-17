@@ -78,16 +78,17 @@ class PebbleJSONPlugin(object):
                         i+= 1
                     if pebbleId:
                         accept = 'application/json'
-                elif accept == 'application/vnd.httpebble.named+json':
+                elif accept == 'application/json':
+                    r = rv
+                else:
+                    accept = 'application/vnd.httpebble.named+json'
                     i = 1
                     for k in rv:
                         r[i] = OrderedDict()
                         r[i]['name'] = k
                         r[i]['value'] = rv[k]
                         i += 1
-                else:
-                    accept = 'application/json'
-                    r = rv
+                    
                 #Attempt to serialize, raises exception on failure
                 json_response = dumps(r, cls=PebbleJSONEncoder)
                 #Set content type only if serialization succesful
